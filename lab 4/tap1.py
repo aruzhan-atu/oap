@@ -5,6 +5,6 @@ while san > 0:
     cifr = san % 10      # Соңғы цифрды алу
     sum += cifr      # Қосындыға қосу
     san = san // 10 
-print(f"{arnaiy_san} санының цифрларының қосындысы: {sum}")
+print(f"{arnaiy_san} санының цифрларының қосындысы: {sum}") 
 
 
