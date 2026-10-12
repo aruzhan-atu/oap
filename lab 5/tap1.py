@@ -13,4 +13,4 @@ for i in range(n):
     array.append(element)
 
 
-print("Алынған жиым:", array)
+print("Алынған жиым:", array) 
