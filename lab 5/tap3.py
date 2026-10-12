@@ -16,4 +16,4 @@ for x in array:
 print("--- 3-тапсырма нәтижесі ---")
 print(f"Оң сандар саны: {pos_count}")
 print(f"Теріс сандар саны: {neg_count}")
-print(f"Жұп элементтер саны: {even_count}")
+print(f"Жұп элементтер саны: {even_count}") 
