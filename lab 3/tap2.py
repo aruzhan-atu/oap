@@ -1,6 +1,6 @@
 number = 8
 
 if number % 2 == 0:
-    print("Число четное")
+    print("Жұп сан")
 else:
-    print("Число нечетное")
+    print("Тақ сан")
