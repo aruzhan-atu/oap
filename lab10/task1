@@ -1,1 +1,80 @@
 
+import re
+
+def process_variant_3(text, search_word, old_word, new_word, code):
+    # 5-шарт: Бос мәтін немесе тек бос орын кездескен жағдайды өңдеу
+    if not text or text.strip() == "":
+        return {"Қате": "Мәтін бос немесе тек бос орындардан тұрады!"}
+    
+    # 1) Бастапқы мәтіннің ұзындығын, сөз санын, бос орын емес таңбалар санын есептеу
+    text_length = len(text)
+    word_count = len(text.split())
+    non_space_count = len([char for char in text if not char.isspace()])
+    
+    # 2) Іздеу сөзінің алғашқы индексін және кездесулер санын табу (регистрге тәуелсіз)
+    text_lower = text.lower()
+    search_word_lower = search_word.lower()
+    
+    first_index = text_lower.find(search_word_lower)
+    occurrence_count = text_lower.count(search_word_lower)
+    
+    if first_index == -1:
+        search_status = f"'{search_word}' сөзі мәтіннен табылмады."
+    else:
+        search_status = f"Алғашқы индекс: {first_index}, Жалпы саны: {occurrence_count}"
+        
+    # 3) Берілген сөзді жаңа сөзге алмастыру
+    modified_text = text.replace(old_word, new_word)
+    
+    # 4) Берілген кодтың ХХ-999 үлгісіне сәйкестігін тексеру
+    code_pattern = r'^[A-Z]{2}-\d{3}$'
+    if re.match(code_pattern, code):
+        code_status = f"'{code}' коды ХХ-999 үлгісіне СӘЙКЕС КЕЛЕДІ."
+    else:
+        code_status = f"'{code}' коды ХХ-999 үлгісіне СӘЙКЕС КЕЛМЕЙДІ (Қате пішім)."
+        
+    return {
+        "Мәтін ұзындығы": text_length,
+        "Сөз саны": word_count,
+        "Бос орын емес таңбалар саны": non_space_count,
+        "Іздеу нәтижесі (регистрсіз)": search_status,
+        "Өзгертілген мәтін": modified_text,
+        "Кодты тексеру нәтижесі": code_status
+    }
+
+# --- КЕМІНДЕ 5 МІНДЕТТІ ТЕСТ ОРЫНДАУ ---
+test_cases = [
+    {
+        "id": "1-Тест: Қалыпты жағдай (3-нұсқа)",
+        "text": "Кітапхана студенттерге кітап ұсынады. Кітап білім көзі.",
+        "search": "кітап", "old": "білім", "new": "ақпарат", "code": "EF-789"
+    },
+    {
+        "id": "2-Тест: Бос мәтін",
+        "text": "",
+        "search": "кітап", "old": "білім", "new": "ақпарат", "code": "EF-789"
+    },
+    {
+        "id": "3-Тест: Тек бос орындар",
+        "text": "      ",
+        "search": "кітап", "old": "білім", "new": "ақпарат", "code": "EF-789"
+    },
+    {
+        "id": "4-Тест: Табылмаған ішкі жол",
+        "text": "Кітапхана студенттерге ұсынады. Білім көзі.",
+        "search": "компьютер", "old": "білім", "new": "ақпарат", "code": "EF-789"
+    },
+    {
+        "id": "5-Тест: Қате пішімді код",
+        "text": "Кітапхана студенттерге кітап ұсынады. Кітап білім көзі.",
+        "search": "кітап", "old": "білім", "new": "ақпарат", "code": "ef-789"
+    }
+]
+
+# Тесттерді іске қосу
+for test in test_cases:
+    print(f"=== {test['id']} ===")
+    results = process_variant_3(test['text'], test['search'], test['old'], test['new'], test['code'])
+    for key, val in results.items():
+        print(f"{key}: {val}")
+    print("\n" + "-"*50 + "\n")
