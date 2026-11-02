@@ -1,1 +1,33 @@
+def binary_search(lst, target):
+    low = 0
+    high = len(lst) - 1
+    comparisons = 0
+    
+    while low <= high:
+        comparisons += 1
+        mid = (low + high) // 2
+        if lst[mid] == target:
+            return mid, comparisons
+        elif lst[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+            
+    return -1, comparisons
+
+# 1-тапсырмадағыдай тізімді пайдалану (мысал ретінде)
+print("--- 2-тапсырма: Екілік іздеу ---")
+original_list = [45, 12, 89, 7, 23, 56, 4, 78, 90, 31]
+target = int(input("Ізделетін санды енгізіңіз: "))
+
+# Тізімнің сұрыпталған көшірмесін жасау
+sorted_list = sorted(original_list)
+print(f"Сұрыпталған тізім: {sorted_list}")
+
+# Екілік іздеуді орындау
+idx, comp = binary_search(sorted_list, target)
+
+print(f"\nНәтиже:")
+print(f"Сұрыпталған тізімдегі индекс = {idx}")
+print(f"Салыстыру саны = {comp}")
 
