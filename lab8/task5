@@ -1,1 +1,48 @@
+def linear_search(lst, target):
+    for i in range(len(lst)):
+        if lst[i] == target:
+            return i
+    return -1
+
+def binary_search_classic(lst, target):
+    low = 0
+    high = len(lst) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if lst[mid] == target:
+            return mid  # Кез келген сәйкес келген индексті бірден қайтара салады
+        elif lst[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+def binary_search_first_occurrence(lst, target):
+    low = 0
+    high = len(lst) - 1
+    result_idx = -1  # Табылған ең бірінші индексті сақтау үшін
+    
+    while low <= high:
+        mid = (low + high) // 2
+        if lst[mid] == target:
+            result_idx = mid  # Индексті жазып аламыз
+            high = mid - 1    # Алғашқысын табу үшін сол жақ бөліктен іздеуді жалғастырамыз
+        elif lst[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+            
+    return result_idx
+
+print("--- 5-тапсырма: Алғашқы кездесу индексін табу ---")
+# Қайталанатын элементтері бар сұрыпталған тізім
+dup_list = [10, 20, 30, 30, 30, 40, 50]
+target_val = 30
+
+print(f"Тізім: {dup_list}")
+print(f"Ізделетін сан: {target_val}\n")
+
+print(f"Сызықтық іздеу тапқан индекс: {linear_search(dup_list, target_val)}")
+print(f"Классикалық екілік іздеу тапқан индекс (ортадағы): {binary_search_classic(dup_list, target_val)}")
+print(f"Өзгертілген екілік іздеу тапқан ИНДЕКС (ең біріншісі): {binary_search_first_occurrence(dup_list, target_val)}")
 
