@@ -1,1 +1,44 @@
+def linear_search(lst, target):
+    comparisons = 0
+    for i in range(len(lst)):
+        comparisons += 1
+        if lst[i] == target:
+            return i, comparisons
+    return -1, comparisons
+
+def binary_search(lst, target):
+    low = 0
+    high = len(lst) - 1
+    comparisons = 0
+    while low <= high:
+        comparisons += 1
+        mid = (low + high) // 2
+        if lst[mid] == target:
+            return mid, comparisons
+        elif lst[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1, comparisons
+
+print("--- 3-тапсырма: Салыстыру кестесі ---")
+# 10 элементтен тұратын сұрыпталған сынақ тізімі
+test_list = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+print(f"Сынақ тізімі: {test_list}\n")
+
+# Зерттелетін жағдайлар
+cases = {
+    "Бірінші (10)": 10,
+    "Ортаңғы (50)": 50,
+    "Соңғы (100)": 100,
+    "Мүлде жоқ (55)": 55
+}
+
+# Кестені экранға шығару
+print(f"{'Нысана орны':<15} | {'Сызықтық (Салыстыру)':<22} | {'Екілік (Салыстыру)':<20}")
+print("-" * 65)
+for name, val in cases.items():
+    _, lin_comp = linear_search(test_list, val)
+    _, bin_comp = binary_search(test_list, val)
+    print(f"{name:<15} | {lin_comp:<22} | {bin_comp:<20}")
 
