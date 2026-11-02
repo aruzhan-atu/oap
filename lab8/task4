@@ -1,1 +1,44 @@
+def linear_search(lst, target):
+    comparisons = 0
+    for i in range(len(lst)):
+        comparisons += 1
+        if lst[i] == target:
+            return i, comparisons
+    return -1, comparisons
+
+def binary_search(lst, target):
+    low = 0
+    high = len(lst) - 1
+    comparisons = 0
+    while low <= high:
+        comparisons += 1
+        mid = (low + high) // 2
+        if lst[mid] == target:
+            return mid, comparisons
+        elif lst[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1, comparisons
+
+print("--- 4-тапсырма: Тізім өлшемінің әсері ---\n")
+sizes = [10, 100, 1000]
+
+print(f"{'Өлшемі':<8} | {'Іздеу түрі':<12} | {'Соңғы элемент (Салыстыру)':<26} | {'Тізімде жоқ (Салыстыру)'}")
+print("-" * 80)
+
+for size in sizes:
+    r_list = list(range(size))
+    last_val = size - 1   # Соңғы элемент
+    no_val = size         # Тізімде мүлде жоқ мән
+    
+    _, lin_last = linear_search(r_list, last_val)
+    _, lin_no = linear_search(r_list, no_val)
+    
+    _, bin_last = binary_search(r_list, last_val)
+    _, bin_no = binary_search(r_list, no_val)
+    
+    print(f"{size:<8} | {'Сызықтық':<12} | {lin_last:<26} | {lin_no}")
+    print(f"{size:<8} | {'Екілік':<12} | {bin_last:<26} | {bin_no}")
+    print("-" * 80)
 
