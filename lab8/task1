@@ -1,1 +1,29 @@
+def linear_search(lst, target):
+    comparisons = 0
+    for i in range(len(lst)):
+        comparisons += 1
+        if lst[i] == target:
+            return i, comparisons  # индекс және салыстыру саны
+    return -1, comparisons
+
+# Пайдаланушыдан мәліметтерді алу
+print("--- 1-тапсырма: Сызықтық іздеу ---")
+user_input = input("Кемінде 10 бүтін санды бос орын арқылы енгізіңіз: ")
+original_list = [int(x) for x in user_input.split()]
+
+if len(original_list) < 10:
+    print("Ескерту: Сұралғандай кемінде 10 сан енгізіңіз!")
+    # Саны жетпесе, әдепкі тізімді қосамыз
+    original_list = [45, 12, 89, 7, 23, 56, 4, 78, 90, 31]
+    print(f"Әдепкі тізім қолданылды: {original_list}")
+
+target = int(input("Ізделетін мақсатты санды енгізіңіз: "))
+
+# Сызықтық іздеуді орындау
+idx, comp = linear_search(original_list, target)
+
+print(f"\nНәтиже:")
+print(f"Бастапқы тізім: {original_list}")
+print(f"Табылған индекс = {idx}")
+print(f"Салыстыру саны = {comp}")
 
