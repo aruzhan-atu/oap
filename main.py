@@ -1,1 +1,59 @@
+import json
 
+books = []
+non_empty_lines = 0
+total_words = 0
+
+# 1. input.txt файлын оқу және өңдеу
+with open("input.txt", "r", encoding="utf-8") as file:
+    for line_num, line in enumerate(file, start=1):
+        clean_line = line.strip()
+        
+        # Бос жолдарды өткізіп жіберу
+        if not clean_line:
+            continue
+            
+        non_empty_lines += 1
+        total_words += len(clean_line.split())
+        
+        # Қате форматтағы жолды қауіпсіз өңдеу
+        parts = clean_line.split(",")
+        if len(parts) != 2:
+            print(f"Ескерту: {line_num}-жолдың форматы қате ('{clean_line}') -> өткізілді.")
+            continue
+            
+        title = parts[0].strip()
+        try:
+            pages = int(parts[1].strip())
+            books.append({"title": title, "pages": pages})
+        except ValueError:
+            print(f"Ескерту: {line_num}-жолдағы бет саны сан емес ('{clean_line}') -> өткізілді.")
+
+# 2. Есептеулер: Жалпы бет саны және ең көлемді кітап
+total_pages = sum(book["pages"] for book in books)
+largest_book = max(books, key=lambda x: x["pages"]) if books else {"title": "Жоқ", "pages": 0}
+
+# 3. Нәтижені report.txt файлына жазу
+report_text = (
+    f"Бос емес жолдар саны: {non_empty_lines}\n"
+    f"Барлық сөздер саны: {total_words}\n"
+    f"Жалпы бет саны: {total_pages}\n"
+    f"Ең көлемді кітап: {largest_book['title']} ({largest_book['pages']} бет)\n"
+)
+
+with open("report.txt", "w", encoding="utf-8") as report_file:
+    report_file.write(report_text)
+
+# 4. Деректерді data.json файлына сақтау және қайта жүктеу
+with open("data.json", "w", encoding="utf-8") as json_file:
+    json.dump(books, json_file, ensure_ascii=False, indent=2)
+
+with open("data.json", "r", encoding="utf-8") as json_file:
+    restored_books = json.load(json_file)
+
+# 5. Тексеру және экранға шығару
+assert books == restored_books, "Қате: Жүктелген деректер бастапқы деректерге сәйкес емес!"
+print("\nДеректер сәтті тексерілді!")
+print(f"JSON-дағы жазбалар саны: {len(restored_books)}")
+if restored_books:
+    print(f"Бірінші кітап атауы: {restored_books[0]['title']}")
