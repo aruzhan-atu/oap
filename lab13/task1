@@ -1,0 +1,13 @@
+def process_expense(balance, expense):
+    try:
+        if not isinstance(balance, (int, float)) or not isinstance(expense, (int, float)):
+            raise TypeError("Баланс пен шығыс сан болуы керек.")
+        if balance < 0 or expense < 0:
+            raise ValueError("Сома теріс сан болмауы тиіс.")
+        if expense > balance:
+            raise ValueError("Шоттағы қаражат жеткіліксіз (артық шығыс).")
+            
+        new_balance = balance - expense
+        return new_balance
+    except (ValueError, TypeError) as e:
+        return f"Қате: {e}"
